@@ -67,7 +67,7 @@ ggplot(data = merged_projected) +
   geom_sf_text(
     aes(label = Label),
     color = "black",
-    size = 4,
+    size = 3,
     fontface = "bold",
     lineheight = 0.8,
     check_overlap = FALSE
@@ -87,11 +87,11 @@ ggplot(data = merged_projected) +
     legend.text = element_text(size = 9),
     plot.title = element_text(
       hjust = 0.5,
-      size = 18,
+      size = 15,
       face = "bold",
       color = "#2c3e50"
     ),
-    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "#7f8c8d"),
+    plot.subtitle = element_text(hjust = 0.5, size = 10, color = "#7f8c8d"),
   ) +
   labs(
     title = "District-wise Distribution of PAB Approved CCI Units in West Bengal",
@@ -115,7 +115,7 @@ df_child_category <- df_child_category %>%
   mutate(labels = scales::percent(perc))
 
 # Set the figure size
-options(repr.plot.width = 12, repr.plot.height = 8)
+options(repr.plot.width = 12, repr.plot.height = 10)
 
 # Create the pie chart
 ggplot(df_child_category, aes(x = "", y = `No. of Children`, fill = Category)) +
@@ -188,8 +188,7 @@ ggplot(df_formal_edu, aes(x = FY, y = average, group = 1)) +
   geom_point(color = "#33a02c", size = 4) + # Use a green color for the points
   geom_text(
     aes(label = percentage),
-    vjust = -1,
-    size = 4.5,
+    size = 4,
     color = "black",
     fontface = "bold" # Make labels bold
   ) +
@@ -201,10 +200,10 @@ ggplot(df_formal_edu, aes(x = FY, y = average, group = 1)) +
   ) +
   theme_minimal() + # Use a minimal theme
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "#2c3e50"), # Customize title
-    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "#7f8c8d"), # Customize subtitle
+    plot.title = element_text(hjust = 0.5, size = 12, face = "bold", color = "#2c3e50"), # Customize title
+    plot.subtitle = element_text(hjust = 0.5, size = 10, color = "#7f8c8d"), # Customize subtitle
     plot.caption = element_text(hjust = 1, size = 10, color = "#7f8c8d"), # Customize caption
-    axis.text.x = element_text(size = 12, color = "#2c3e50"), # Customize x-axis text
+    axis.text.x = element_text(size = 8, color = "#2c3e50"), # Customize x-axis text
     axis.text.y = element_blank(), # Remove y-axis text
     axis.title.y = element_blank(), # Remove y-axis title
     axis.ticks.y = element_blank(), # Remove y-axis ticks
@@ -232,8 +231,7 @@ ggplot(df_vocational_edu, aes(x = FY, y = average, group = 1)) +
   geom_point(color = "#33a02c", size = 4) + # Use a green color for the points
   geom_text(
     aes(label = percentage),
-    vjust = -1,
-    size = 4.5,
+    size = 4,
     color = "black",
     fontface = "bold" # Make labels bold
   ) +
@@ -245,10 +243,10 @@ ggplot(df_vocational_edu, aes(x = FY, y = average, group = 1)) +
   ) +
   theme_minimal() + # Use a minimal theme
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold", color = "#2c3e50"), # Customize title
-    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "#7f8c8d"), # Customize subtitle
+    plot.title = element_text(hjust = 0.5, size = 12, face = "bold", color = "#2c3e50"), # Customize title
+    plot.subtitle = element_text(hjust = 0.5, size = 10, color = "#7f8c8d"), # Customize subtitle
     plot.caption = element_text(hjust = 1, size = 10, color = "#7f8c8d"), # Customize caption
-    axis.text.x = element_text(size = 12, color = "#2c3e50"), # Customize x-axis text
+    axis.text.x = element_text(size = 8, color = "#2c3e50"), # Customize x-axis text
     axis.text.y = element_blank(), # Remove y-axis text
     axis.title.y = element_blank(), # Remove y-axis title
     axis.ticks.y = element_blank(), # Remove y-axis ticks
