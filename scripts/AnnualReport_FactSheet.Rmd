@@ -22,10 +22,10 @@ for (pkg in packages) {
 }
 
 # Set Data file path
-data_file <- "input/children-in-cci/2024-09-22_Data.xlsx"
+data_file <- "../input/children-in-cci/2024-09-22_Data.xlsx"
 
 # Set Map file path
-shp_file <- "input/west-bengal-district-shape-files/District_shape_West_Bengal.shp"
+shp_file <- "../input/west-bengal-district-shape-files/District_shape_West_Bengal.shp"
 
 ```
 In West Bengal, presently there are 56 Govt. run Units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya.
