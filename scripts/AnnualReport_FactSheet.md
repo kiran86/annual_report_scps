@@ -26,15 +26,6 @@ education system through NIOS. Children with Special Needs who are
 unable to be enrolled in formal system are getting special education
 through Special Educators engaged at the CCI.
 
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_line()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
-    ## Warning: Removed 1 row containing missing values or values outside the scale range
-    ## (`geom_text()`).
-
 ![](AnnualReport_FactSheet_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 During pandemic hit years, Vocational Training Programs were vastly
