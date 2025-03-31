@@ -1,16 +1,18 @@
 ---
 title: "Children in Child Care Institutions"
 subtitle: "A Fact File"
+author: "Kiran Sankar Das"
 output:
   github_document:
     toc: TRUE
+    html_preview: false
 ---
 ```{r setup, include=FALSE}
 # Set CRAN mirror explicitly for knitting
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 # Install and load necessary packages if not availables
-packages <- c("tidyverse", "sf", "ggplot2", "readxl", "dplyr", "ggrepel", "scales")
+packages <- c("tidyverse", "sf", "ggplot2", "readxl", "dplyr", "ggrepel", "scales", "rmarkdown")
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, dependencies = TRUE)
@@ -19,10 +21,10 @@ for (pkg in packages) {
 }
 
 # Set Data file path
-data_file <- "../input/children-in-cci/2024-09-22_Data.xlsx"
+data_file <- "input/children-in-cci/2024-09-22_Data.xlsx"
 
 # Set Map file path
-shp_file <- "../input/west-bengal-district-shape-files/District_shape_West_Bengal.shp"
+shp_file <- "input/west-bengal-district-shape-files/District_shape_West_Bengal.shp"
 
 ```
 In West Bengal, presently there are 56 Govt. run Units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya.
