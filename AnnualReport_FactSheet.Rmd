@@ -4,8 +4,9 @@ subtitle: "A Fact File"
 author: "Kiran Sankar Das"
 output:
   github_document:
-    toc: TRUE
+    toc: true
     html_preview: false
+    fig_width: 12
 ---
 ```{r setup, include=FALSE}
 # Set CRAN mirror explicitly for knitting
