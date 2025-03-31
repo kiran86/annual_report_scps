@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Copy contents of AnnualReport_FactSheet.md to README.md
-        run: cat scripts/AnnualReport_FactSheet.md > README.md
+        run: sed 's#(AnnualReport_FactSheet_files/#(docs/AnnualReport_FactSheet_files/#g' scripts/AnnualReport_FactSheet.md > README.md
 
       - name: Commit and push changes
         run: |
