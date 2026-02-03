@@ -1,7 +1,6 @@
 ---
 title: "Children in Child Care Institutions"
 subtitle: "A Fact File"
-author: "Kiran Sankar Das"
 output:
     html:
         toc: true
@@ -35,7 +34,7 @@ sns.set_theme(style="white")
 
 ```
 
-In West Bengal, presently there are 56 Govt. run Units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya.
+In West Bengal, presently there are 56 Govt. run units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya. Apart from these, there are 13 Govt. run and 28 NGO run Specialized Adoption Agencies and 37 NGO run Open Shelters functioning in the State.
 
 ```{python, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.width=7, fig.height=10}
 # Read the Excel file (assuming the file is in the working directory)
@@ -67,7 +66,7 @@ merged_df["Total"] = (
 merged = merged_df
 
 # Plotting
-fig, ax = plt.subplots(figsize=(12, 16))
+fig, ax = plt.subplots(figsize=(10, 12))
 merged.plot(
     column='Total',
     cmap='Blues',
@@ -94,13 +93,13 @@ plt.title(
 plt.show()
 ```
 
-As on 31st March 2023 a total of 4148 inmates among different categories are being facilitated in the above-mentioned homes.
+As on 31st March 2025 a total of 4791 inmates among different categories are being facilitated in the above-mentioned homes.
 
 ```{python, echo=FALSE}
 # Read the Excel file with sheet name specified (assuming the file is in the working directory)
 df_child_category = pd.read_excel(data_file, sheet_name = "Child_Category")
 
-fig, ax = plt.subplots(figsize = (10, 10))
+fig, ax = plt.subplots(figsize = (8, 8))
 colors = sns.color_palette("Set3", len(df_child_category))
 
 wedges, texts, autotexts = ax.pie(
@@ -112,7 +111,7 @@ wedges, texts, autotexts = ax.pie(
     wedgeprops={'edgecolor':'white'}
 )
 
-plt.setp(autotexts, size=12, weight="bold")
+plt.setp(autotexts, size=18, weight="bold")
 ax.set_title(
     'Category of Children\nDistribution of Children by Category',
     fontsize=18,

@@ -3,6 +3,10 @@ title: "Children in Child Care Institutions"
 subtitle: "A Fact File"
 author: "Kiran Sankar Das"
 output:
+  docx:
+    toc: true
+    number-sections: true
+    highlight-style: github
   github_document:
     toc: true
     html_preview: false
