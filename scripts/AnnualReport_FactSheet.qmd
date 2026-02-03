@@ -3,13 +3,18 @@ title: "Children in Child Care Institutions"
 subtitle: "A Fact File"
 author: "Kiran Sankar Das"
 output:
-  html:
-    toc: true
-    fig-width: 12
+    html:
+        toc: true
+        fig-width: 12
+    docx:
+        toc: true
+        number-sections: true
+        highlight-style: github
 execute:
-  echo: false
-  warning: false
+    echo: false
+    warning: false
 ---
+
 ```{python, include=FALSE}
 # Setup and data loading
 import pandas as pd
@@ -29,6 +34,7 @@ shp_file = "../input/west-bengal-district-shape-files/District_shape_West_Bengal
 sns.set_theme(style="white")
 
 ```
+
 In West Bengal, presently there are 56 Govt. run Units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya.
 
 ```{python, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.width=7, fig.height=10}
@@ -120,113 +126,70 @@ During FY 2020-21, due to COVID-19 pandemic, number of children facilitated thro
 
 ```{python, echo=FALSE}
 # Read the excel file with sheet name for children under purview
-df_child_purview <- read_excel(data_file, sheet = "PurviewCCI")
+df_child_purview = pd.read_excel(data_file, sheet_name = "PurviewCCI")
 
 # Reshape the data for ggplot2 (convert to long format)
-df_long <- df_child_purview %>%
-    pivot_longer(cols = c(Girls, Boys, Total), names_to = "Category", values_to = "Count")
+df_long = df_child_purview.melt(
+    id_vars='FY',
+    value_vars=['Girls', 'Boys', 'Total'],
+    var_name = "Category",
+    value_name= "Count"
+)
 
-# Create the bar chart
-ggplot(df_long, aes(x = as.factor(FY), y = Count, fill = Category)) +
-    geom_bar(stat = "identity", position = "dodge", width = 0.4) + # Use "dodge" to place bars side by side
-    coord_flip() +
-    labs(
-        title = "Children Facilitated through Govt. & NGO run Homes",
-        x = "",
-        y = "",
-        fill = "Category"
-    ) +
-    theme_minimal() + # Use a minimal theme
-    theme(
-        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"), # Center and style the title
-        axis.text.x = element_text(size = 12), # Adjust x-axis text size
-        axis.text.y = element_text(size = 12), # Adjust y-axis text size
-        legend.position = "bottom" # Place the legend at the top
-    )
+plt.figure(figsize=(12, 8))
+sns.barplot(
+    data = df_long,
+    y = "FY",
+    x = "Count",
+    hue = "Category",
+    orient = "h"
+)
+plt.title(
+    "Children Facilitated through Govt. & NGO run Homes",
+    fontsize = 16,
+    fontweight = "bold"
+)
+plt.xlabel("")
+plt.ylabel("")
+plt.legend(bbox_to_anchor=(0.5, -0.05), loc = 'upper center', ncol = 3)
+sns.despine()
+plt.show()
 ```
 
 Enrollment in Formal Education has also improved during this financial year as more non-CWSN CNCP children are enrolled with the formal education system through NIOS. Children with Special Needs who are unable to be enrolled in formal system are getting special education through Special Educators engaged at the CCI.
 
 ```{python, echo=FALSE}
-# Read the excel file with sheet name for children under purview
-df_formal_edu <- read_excel(data_file, sheet = "FormalEdRatio")
-df_formal_edu <- mutate(df_formal_edu, percentage = scales::percent(average))
+# function for plotting trend lines
+def plot_trend(sheet, title, subtitle):
+    df = pd.read_excel(data_file, sheet_name=sheet)
+    
+    plt.figure(figsize=(12, 5), facecolor='#f0f0f0')
+    ax = plt.gca()
+    ax.set_facecolor('white')
+    
+    sns.lineplot(data=df, x='FY', y='average', marker='o', color='#1f78b4', linewidth=2.5)
+    
+    for i, row in df.iterrows():
+        plt.text(row['FY'], row['average'], f"{row['average']*100:.1f}%", 
+                 ha='center', va='bottom', fontweight='bold')
 
-# Create the line graph
-ggplot(df_formal_edu, aes(x = FY, y = average, group = 1)) +
-    geom_line(color = "#1f78b4", linewidth = 1.5) + # Use a blue color for the line
-    geom_point(color = "#33a02c", size = 4) + # Use a green color for the points
-    geom_text(
-        aes(label = percentage),
-        size = 4,
-        color = "black",
-        fontface = "bold" # Make labels bold
-    ) +
-    labs(
-        title = "Average Percentage of Children (6-18 Years) Enrolled in Formal Education",
-        subtitle = "Data from Financial Year 2017-18 to 2023-24", # Add a subtitle
-        x = "Financial Year",
-        y = NULL # Remove y-axis label
-    ) +
-    theme_minimal() + # Use a minimal theme
-    theme(
-        plot.title = element_text(hjust = 0.5, size = 12, face = "bold", color = "#2c3e50"), # Customize title
-        plot.subtitle = element_text(hjust = 0.5, size = 10, color = "#7f8c8d"), # Customize subtitle
-        plot.caption = element_text(hjust = 1, size = 10, color = "#7f8c8d"), # Customize caption
-        axis.text.x = element_text(size = 8, color = "#2c3e50"), # Customize x-axis text
-        axis.text.y = element_blank(), # Remove y-axis text
-        axis.title.y = element_blank(), # Remove y-axis title
-        axis.ticks.y = element_blank(), # Remove y-axis ticks
-        axis.line.y = element_blank(), # Remove y-axis line
-        panel.grid.major.x = element_line(color = "#bdc3c7", linetype = "dotted"), # Add dotted grid lines for x-axis
-        panel.grid.minor.x = element_blank(), # Remove minor x-axis grid lines
-        panel.grid.major.y = element_blank(), # Remove major y-axis grid lines
-        panel.grid.minor.y = element_blank(), # Remove minor y-axis grid lines
-        legend.position = "bottom", # Place the legend at the bottom
-        plot.background = element_rect(fill = "#f0f0f0", color = NA), # Light gray background
-        panel.background = element_rect(fill = "white", color = NA) # White panel background
-    )
+    plt.title(f"{title}\n{subtitle}", fontsize=12, fontweight='bold', color='#2c3e50')
+    plt.xlabel("Financial Year")
+    plt.yticks([])
+    sns.despine(left=True)
+    plt.grid(axis='x', linestyle='--', alpha=0.7)
+    plt.show()
+
+# Plot enrolment in formal education plot_trend
+plot_trend("FormalEdRatio", 
+           "Average Percentage of Children (6-18 Years) Enrolled in Formal Education",
+           "Data from Financial Year 2017-18 to 2023-24")
 ```
 
 During pandemic hit years, Vocational Training Programs were vastly halted as access to CCIs was restricted, but these programs are resuming, and enrollment has also improved during this financial year.
 
 ```{python, echo=FALSE}
-# Read the excel file with sheet name for children under purview
-df_vocational_edu <- read_excel(data_file, sheet = "VocationalTraining")
-df_vocational_edu <- mutate(df_vocational_edu, percentage = scales::percent(average))
-
-# Create the line graph
-ggplot(df_vocational_edu, aes(x = FY, y = average, group = 1)) +
-    geom_line(color = "#1f78b4", linewidth = 1.5) + # Use a blue color for the line
-    geom_point(color = "#33a02c", size = 4) + # Use a green color for the points
-    geom_text(
-        aes(label = percentage),
-        size = 4,
-        color = "black",
-        fontface = "bold" # Make labels bold
-    ) +
-    labs(
-        title = "Average Percentage of Children (above 11 years) Enrolled in Vocational Training",
-        subtitle = "Data from Financial Year 2017-18 to 2023-24", # Add a subtitle
-        x = "Financial Year",
-        y = NULL # Remove y-axis label
-    ) +
-    theme_minimal() + # Use a minimal theme
-    theme(
-        plot.title = element_text(hjust = 0.5, size = 12, face = "bold", color = "#2c3e50"), # Customize title
-        plot.subtitle = element_text(hjust = 0.5, size = 10, color = "#7f8c8d"), # Customize subtitle
-        plot.caption = element_text(hjust = 1, size = 10, color = "#7f8c8d"), # Customize caption
-        axis.text.x = element_text(size = 8, color = "#2c3e50"), # Customize x-axis text
-        axis.text.y = element_blank(), # Remove y-axis text
-        axis.title.y = element_blank(), # Remove y-axis title
-        axis.ticks.y = element_blank(), # Remove y-axis ticks
-        axis.line.y = element_blank(), # Remove y-axis line
-        panel.grid.major.x = element_line(color = "#bdc3c7", linetype = "dotted"), # Add dotted grid lines for x-axis
-        panel.grid.minor.x = element_blank(), # Remove minor x-axis grid lines
-        panel.grid.major.y = element_blank(), # Remove major y-axis grid lines
-        panel.grid.minor.y = element_blank(), # Remove minor y-axis grid lines
-        legend.position = "bottom", # Place the legend at the bottom
-        plot.background = element_rect(fill = "#f0f0f0", color = NA), # Light gray background
-        panel.background = element_rect(fill = "white", color = NA) # White panel background
-    )
+plot_trend("VocationalTraining", 
+           "Average Percentage of Children (above 11 years) Enrolled in Vocational Training",
+           "Data from Financial Year 2017-18 to 2023-24")
 ```
