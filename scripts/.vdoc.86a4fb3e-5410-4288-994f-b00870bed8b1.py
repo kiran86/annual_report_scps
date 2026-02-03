@@ -1,20 +1,21 @@
----
-title: "Children in Child Care Institutions"
-subtitle: "A Fact File"
-author: "Kiran Sankar Das"
-output:
-  html:
-    toc: true
-    fig-width: 12
-execute:
-  echo: false
-  warning: false
----
-```{python, include=FALSE}
+# type: ignore
+# flake8: noqa
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 # Setup and data loading
 import pandas as pd
 import geopandas as gpd
-from numpy import size
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
@@ -29,9 +30,9 @@ shp_file = "../input/west-bengal-district-shape-files/District_shape_West_Bengal
 sns.set_theme(style="white")
 
 ```
-In West Bengal, presently there are 56 Govt. run Units of Home including 8 units for Child in Conflict with Law and 75 NGO run Units of Home including 6 units for CCL functioning under the umbrella of Mission Vatsalya.
-
-```{python, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.width=7, fig.height=10}
+#
+#
+#
 # Read the Excel file (assuming the file is in the working directory)
 df_cci_count = pd.read_excel(data_file, sheet_name="CCI_Count")
 
@@ -76,7 +77,7 @@ merged.plot(
 for idx, row in merged.iterrows():
     label = f"{row['NAME']}\nHomes: {int(row['Homes'])}\nSAA: {int(row['Specialized Adoption Agency'])}\nOS: {int(row['Open Shelter'])}"
     plt.annotate(text=label, xy=(row.geometry.centroid.x, row.geometry.centroid.y),
-    horizontalalignment='center', fontsize=8, fontweight='bold', color='black')
+                 horizontalalignment='center', fontsize=8, fontweight='bold', color='black')
 
 ax.set_axis_off()
 plt.title(
@@ -86,39 +87,54 @@ plt.title(
     color='#2c3e50'
 )
 plt.show()
-```
-
-As on 31st March 2023 a total of 4148 inmates among different categories are being facilitated in the above-mentioned homes.
-
-```{python, echo=FALSE}
+#
+#
+#
+#
+#
 # Read the Excel file with sheet name specified (assuming the file is in the working directory)
-df_child_category = pd.read_excel(data_file, sheet_name = "Child_Category")
+df_child_category <- read_excel(data_file, sheet = "Child_Category")
 
-fig, ax = plt.subplots(figsize = (10, 10))
-colors = sns.color_palette("Set3", len(df_child_category))
+# Calculate percentage of occupancy
+df_child_category <- df_child_category %>%
+    mutate(perc = `No. of Children` / sum(`No. of Children`)) %>%
+    mutate(labels = scales::percent(perc))
 
-wedges, texts, autotexts = ax.pie(
-    df_child_category['No. of Children'],
-    labels=df_child_category['Category'],
-    autopct='%1.1f%%',
-    startangle=90,
-    colors=colors,
-    wedgeprops={'edgecolor':'white'}
-)
+# Set the figure size
+options(repr.plot.width = 12, repr.plot.height = 10)
 
-plt.setp(autotexts, size=12, weight="bold")
-ax.set_title(
-    'Category of Children\nDistribution of Children by Category',
-    fontsize=18,
-    fontweight='bold',
-    color='#2c3e50'
-)
-plt.show()
-```
-
-During FY 2020-21, due to COVID-19 pandemic, number of children facilitated through Mission Vatsalya, erstwhile CPS was declined but this improved in the following years.
-
-```{python, echo=FALSE}
+# Create the pie chart
+ggplot(df_child_category, aes(x = "", y = `No. of Children`, fill = Category)) +
+    geom_bar(stat = "identity", width = 1, color = "white") + # Add white borders for clarity
+    coord_polar("y", start = 0) +
+    theme_void() + # Use a minimal theme
+    geom_label(
+        aes(label = labels),
+        position = position_stack(vjust = 0.5),
+        size = 8, # Increase label size
+        color = "black", # White text for better contrast
+        fontface = "bold", # Bold text
+        show.legend = FALSE # Hide labels from legend
+    ) +
+    scale_fill_brewer(palette = "Set3") + # Use a colorblind-friendly palette
+    labs(
+        title = "Category of Children",
+        subtitle = "Distribution of Children by Category", # Add a subtitle
+        fill = "Category" # Legend title
+    ) +
+    theme(
+        plot.title = element_text(hjust = 0.5, size = 18, face = "bold", color = "#2c3e50"), # Customize title
+        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "#7f8c8d"), # Customize subtitle
+        plot.caption = element_text(hjust = 1, size = 10, color = "#7f8c8d"), # Customize caption
+        legend.position = "right", # Place legend on the right
+        legend.title = element_text(size = 12, face = "bold"), # Customize legend title
+        legend.text = element_text(size = 10) # Customize legend text
+    )
+#
+#
+#
+#
+#
 # Read the excel file with sheet name for children under purview
 df_child_purview <- read_excel(data_file, sheet = "PurviewCCI")
 
@@ -143,11 +159,11 @@ ggplot(df_long, aes(x = as.factor(FY), y = Count, fill = Category)) +
         axis.text.y = element_text(size = 12), # Adjust y-axis text size
         legend.position = "bottom" # Place the legend at the top
     )
-```
-
-Enrollment in Formal Education has also improved during this financial year as more non-CWSN CNCP children are enrolled with the formal education system through NIOS. Children with Special Needs who are unable to be enrolled in formal system are getting special education through Special Educators engaged at the CCI.
-
-```{python, echo=FALSE}
+#
+#
+#
+#
+#
 # Read the excel file with sheet name for children under purview
 df_formal_edu <- read_excel(data_file, sheet = "FormalEdRatio")
 df_formal_edu <- mutate(df_formal_edu, percentage = scales::percent(average))
@@ -186,11 +202,11 @@ ggplot(df_formal_edu, aes(x = FY, y = average, group = 1)) +
         plot.background = element_rect(fill = "#f0f0f0", color = NA), # Light gray background
         panel.background = element_rect(fill = "white", color = NA) # White panel background
     )
-```
-
-During pandemic hit years, Vocational Training Programs were vastly halted as access to CCIs was restricted, but these programs are resuming, and enrollment has also improved during this financial year.
-
-```{python, echo=FALSE}
+#
+#
+#
+#
+#
 # Read the excel file with sheet name for children under purview
 df_vocational_edu <- read_excel(data_file, sheet = "VocationalTraining")
 df_vocational_edu <- mutate(df_vocational_edu, percentage = scales::percent(average))
@@ -229,4 +245,6 @@ ggplot(df_vocational_edu, aes(x = FY, y = average, group = 1)) +
         plot.background = element_rect(fill = "#f0f0f0", color = NA), # Light gray background
         panel.background = element_rect(fill = "white", color = NA) # White panel background
     )
-```
+#
+#
+#
