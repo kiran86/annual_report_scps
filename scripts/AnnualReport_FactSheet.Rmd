@@ -3,14 +3,14 @@ title: "Children in Child Care Institutions"
 subtitle: "A Fact File"
 author: "Kiran Sankar Das"
 output:
-  docx:
-    toc: true
-    number-sections: true
-    highlight-style: github
   github_document:
     toc: true
     html_preview: false
     fig_width: 12
+  docx:
+    toc: true
+    number-sections: true
+    highlight-style: github
 ---
 ```{r setup, include=FALSE}
 # Set CRAN mirror explicitly for knitting
